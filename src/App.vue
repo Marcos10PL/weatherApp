@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import TheNavigation from './components/TheNavigation.vue'
 import ThemeSwitch from './components/ThemeSwitch.vue'
+import TheHeader from './components/header/TheHeader.vue'
 </script>
 
 <template>
-  <TheNavigation />
+  <TheHeader />
   <ThemeSwitch />
   <RouterView />
 </template>
