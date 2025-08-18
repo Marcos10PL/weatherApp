@@ -11,6 +11,8 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
   const error = ref(false)
 
   const fetchWeather = async (lat: string, lon: string) => {
+    if (!lat || !lon) return
+
     loading.value = true
     error.value = false
     data.value = null

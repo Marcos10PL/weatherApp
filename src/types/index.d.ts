@@ -1,9 +1,14 @@
-type WeatherGeoData = {
-  zip: string
+type GeoData = {
   name: string
   lat: number
   lon: number
   country: string
+  state?: string
+  local_names?: {
+    [key: string]: string
+    ascii?: string
+    feature_name?: string
+  }
 }
 
 type CurrentWeatherData = {
@@ -38,10 +43,10 @@ type CurrentWeatherData = {
   }
   rain?: {
     '1h': number
-  },
+  }
   snow?: {
     '1h': number
-  },
+  }
   clouds: {
     all: number
   }

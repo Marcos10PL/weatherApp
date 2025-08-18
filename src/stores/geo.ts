@@ -6,19 +6,19 @@ const API_KEY = import.meta.env.VITE_API_KEY
 const GEO_API_URL = import.meta.env.VITE_GEO_API_URL
 
 export const useGeoStore = defineStore('geo', () => {
-  const data = ref<WeatherGeoData[] | null>(null)
+  const data = ref<GeoData[]>([])
   const loading = ref(false)
   const error = ref(false)
 
-  const fetchGeo = async (city: string) => {
+  const fetchGeo = async (city: string, limit: number = 10) => {
+    if (!city) return []
+
     loading.value = true
     error.value = false
-    data.value = null
+    data.value = []
 
     try {
-      const res = await axios.get(
-        `${GEO_API_URL}?q=${city}&limit=${10}&appid=${API_KEY}&lang=pl`
-      )
+      const res = await axios.get(`${GEO_API_URL}?q=${city}&limit=${limit}&appid=${API_KEY}&lang=en`)
       data.value = res.data
     } catch (err) {
       console.log(err)

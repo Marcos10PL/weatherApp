@@ -1,3 +1,3 @@
 <template>
-  asd
+  <section>HOME</section>
 </template>
