@@ -4,7 +4,6 @@ import { defineStore } from 'pinia'
 export const useTheme = defineStore('theme', () => {
   const isDarkMode = ref(false)
 
-  // inicjalizacja z localStorage
   const saved = localStorage.getItem('theme')
   if (saved === 'dark') {
     isDarkMode.value = true
