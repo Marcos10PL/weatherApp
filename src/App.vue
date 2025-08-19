@@ -6,7 +6,7 @@ import ButtonLinks from './components/ButtonLinks.vue'
 
 <template>
   <TheHeader />
-  <main class="mx-4">
+  <main class="m-4">
     <RouterView />
   </main>
   

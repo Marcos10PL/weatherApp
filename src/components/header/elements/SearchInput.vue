@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useGeoStore } from '@/stores/geo'
+import type { GeoData } from '@/types'
 import gsap from 'gsap'
 import { storeToRefs } from 'pinia'
 import { AutoComplete, FloatLabel } from 'primevue'
@@ -8,7 +9,7 @@ import { computed, ref, useTemplateRef, watch } from 'vue'
 // store
 const geo = useGeoStore()
 const { data, loading, error } = storeToRefs(geo)
-const { fetchGeo } = geo
+const { fetchGeo, setSelectedGeo } = geo
 
 // refs & vars
 const search = ref('')
@@ -29,9 +30,10 @@ const cites = computed((oldValue: GeoData[] | undefined) => {
 // functions
 const selectCity = async (event: { originalEvent: Event; value: GeoData }) => {
   search.value = optionLabel(event.value)
+  setSelectedGeo(event.value)
   setTimeout(() => {
     inputRef.value?.focus()
-  }, 100)
+  }, 10)
 }
 
 const onKeyPress = (e: KeyboardEvent) => {
@@ -69,6 +71,7 @@ watch(search, (newValue = '') => {
   }, 300)
 })
 
+// animation
 const enterAnimation = (el: Element, done: () => void) => {
   gsap.fromTo(
     el,
@@ -110,11 +113,11 @@ const enterAnimation = (el: Element, done: () => void) => {
       <label for="on_label" class="flex items-center">
         <i
           class="pi pi-search text-gray-400 mr-2"
-          :class="{ '!hidden': isFocused || search.length > 0 }"
+          :class="{ '!hidden': isFocused || search?.length > 0 }"
         ></i>
         <p class="letters">
           <span v-for="(char, i) in labelLetters" :key="i" class="inline-block">
-            {{ (isFocused || search.length > 0) && char === '.' ? '' : char }}
+            {{ (isFocused || search?.length > 0) && char === '.' ? '' : char }}
           </span>
         </p>
       </label>

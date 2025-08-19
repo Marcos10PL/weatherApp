@@ -1,3 +1,5 @@
+import type { mapIcons } from '@/data/icons'
+
 type GeoData = {
   name: string
   lat: number
@@ -11,6 +13,9 @@ type GeoData = {
   }
 }
 
+type Icons = keyof typeof mapIcons
+type Weather = (typeof mapIcons)[Icons]
+
 type CurrentWeatherData = {
   coord: {
     lon: number
@@ -21,7 +26,7 @@ type CurrentWeatherData = {
       id: number
       main: string
       description: string
-      icon: string
+      icon: Icons
     },
   ]
   base: string
