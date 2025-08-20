@@ -20,7 +20,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
       const res = await axios.get(
         `${CURRENT_WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
       )
-      console.log(res)
       data.value = res.data
     } catch (err) {
       console.log(err)
