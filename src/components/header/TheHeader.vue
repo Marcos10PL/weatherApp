@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import MainTitle from './elements/MainTitle.vue'
-import SearchInput from './elements/SearchInput.vue'
+import TheLogo from '../TheLogo.vue'
+import SearchInput from './SearchInput.vue'
 </script>
 
 <template>
   <header class="flex flex-col justify-center items-center py-4 gap-y-4">
-    <MainTitle />
+    <h1>
+      <TheLogo />
+    </h1>
     <SearchInput />
   </header>
 </template>

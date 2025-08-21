@@ -75,13 +75,13 @@ watch(search, (newValue = '') => {
 const enterAnimation = (el: Element, done: () => void) => {
   gsap.fromTo(
     el,
-    { x: -150, opacity: 0 },
-    { x: 0, opacity: 1, duration: 1, delay: 1, ease: 'expo.out', onComplete: done }
+    { x: -100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.5, delay: 0.2, ease: 'expo.out', onComplete: done }
   )
   gsap.fromTo(
     '.letters span',
     { opacity: 0 },
-    { opacity: 1, duration: 0.5, delay: 1.5, stagger: 0.07, ease: 'power2.out' }
+    { opacity: 1, duration: 0.5, delay: 0.7, stagger: 0.07, ease: 'power2.out' }
   )
 }
 </script>
