@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import TheHeader from './components/header/TheHeader.vue'
-import ButtonLinks from './components/ButtonLinks.vue'
+// import ButtonLinks from './components/ButtonLinks.vue'
 </script>
 
 <template>
@@ -10,5 +10,5 @@ import ButtonLinks from './components/ButtonLinks.vue'
     <RouterView />
   </main>
   
-  <ButtonLinks />
+  <!-- <ButtonLinks /> -->
 </template>

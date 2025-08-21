@@ -12,20 +12,20 @@ import { useWeatherAnimations } from '@/composables/useWeatherAnimations'
 const props = defineProps<{
   weather: Weather
   loading: boolean
+  tabValue: string
 }>()
-
 // store & vars
 const theme = useTheme()
 const { isDarkMode } = storeToRefs(theme)
 
-const { weather, loading } = toRefs(props)
+const { weather, loading, tabValue } = toRefs(props)
 
 const route = useRoute()
 const { clearAnimations, initAnimations, error } = useWeatherAnimations()
 
 // watchers
 watchEffect(async () => {
-  if (weather.value && !loading.value) {
+  if (weather.value && tabValue.value && !loading.value) {
     await nextTick()
     clearAnimations()
     initAnimations(weather.value)
@@ -33,6 +33,7 @@ watchEffect(async () => {
 })
 
 watch(() => route.path, clearAnimations)
+watch(() => tabValue.value, clearAnimations)
 onUnmounted(clearAnimations)
 
 // classes

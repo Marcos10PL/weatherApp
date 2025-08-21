@@ -12,7 +12,7 @@ export const useWeatherAnimations = () => {
   }
 
   const rayAnimation = () => {
-    const sunRays = document.querySelectorAll('.sun-ray') as NodeListOf<HTMLElement>
+    const sunRays = document.querySelectorAll('.animation .sun-ray') as NodeListOf<HTMLElement>
     let animation = null
     sunRays.forEach((ray, index) => {
       const width = 140 + 20 * index
@@ -39,7 +39,7 @@ export const useWeatherAnimations = () => {
   }
 
   const sunAnimation = () => {
-    const sunAnimation = gsap.to('.pi-sun', {
+    const sunAnimation = gsap.to('.animation .pi-sun', {
       rotation: 360,
       duration: 30,
       repeat: -1,
@@ -49,7 +49,7 @@ export const useWeatherAnimations = () => {
   }
 
   const moonAnimation = () => {
-    const moon = gsap.to('.pi-moon', {
+    const moon = gsap.to('.animation .pi-moon', {
       rotation: 40,
       duration: 5,
       repeat: -1,
@@ -69,8 +69,8 @@ export const useWeatherAnimations = () => {
     ] as const
 
     let allStars = []
-    const stars = document.querySelectorAll('.pi-star') as NodeListOf<HTMLElement>
-    const fillStars = document.querySelectorAll('.pi-star-fill') as NodeListOf<HTMLElement>
+    const stars = document.querySelectorAll('.animation .pi-star') as NodeListOf<HTMLElement>
+    const fillStars = document.querySelectorAll('.animation .pi-star-fill') as NodeListOf<HTMLElement>
     allStars = [...stars, ...fillStars]
 
     allStars.forEach((star, index) => {
@@ -94,7 +94,7 @@ export const useWeatherAnimations = () => {
       { x: -95, y: -15 },
     ] as const
 
-    const cloudFilled = document.querySelectorAll('.cloud-icon') as NodeListOf<HTMLElement>
+    const cloudFilled = document.querySelectorAll('.animation .cloud-icon') as NodeListOf<HTMLElement>
 
     cloudFilled.forEach((cloud, index) => {
       const set = gsap.set(cloud, {
@@ -115,7 +115,7 @@ export const useWeatherAnimations = () => {
   }
 
   const fallAnimation = (tab: NodeListOf<Element>) => {
-    const container = document.querySelector<HTMLDivElement>('.box')
+    const container = document.querySelector<HTMLDivElement>('.animation .box')
     const set = gsap.set(container, {
       x: -50,
       y: 30,
@@ -150,7 +150,7 @@ export const useWeatherAnimations = () => {
   }
 
   const thunderboltsAnimation = () => {
-    const thunderbolts = document.querySelectorAll('.pi-bolt')
+    const thunderbolts = document.querySelectorAll('.animation .pi-bolt')
     thunderbolts.forEach((bolt, index) => {
       const animation = gsap.fromTo(
         bolt,
@@ -173,8 +173,8 @@ export const useWeatherAnimations = () => {
   }
 
   const mistAnimation = () => {
-    const mistSticks = document.querySelectorAll('.mist-stick')
-    const container = document.querySelector('.mist')
+    const mistSticks = document.querySelectorAll('.animation .mist-stick')
+    const container = document.querySelector('.animation .mist')
 
     const set = gsap.set(container, {
       y: 74,
@@ -236,7 +236,7 @@ export const useWeatherAnimations = () => {
       thunderboltsAnimation()
     } else if (weather === 'snow') {
       cloudsAnimation({ y1: -25, y2: -20, size: 95 })
-      const snowflakes = document.querySelectorAll('.snowflake')
+      const snowflakes = document.querySelectorAll('.animation .snowflake')
       fallAnimation(snowflakes)
     } else if (weather === 'mist') {
       cloudsAnimation({ y1: -28, size: 95 })

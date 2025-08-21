@@ -1,10 +1,11 @@
-import type { CurrentWeatherData } from '@/types'
+import type { CurrentWeatherData, UnitsParam } from '@/types'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 const API_KEY = import.meta.env.VITE_API_KEY
 const CURRENT_WEATHER_API_URL = import.meta.env.VITE_CURRENT_WEATHER_API_URL
+const METRIC: UnitsParam = 'metric'
 
 export const useCurrentWeatherStore = defineStore('currentWeather', () => {
   const data = ref<CurrentWeatherData | null>(null)
@@ -18,7 +19,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
 
     try {
       const res = await axios.get(
-        `${CURRENT_WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+        `${CURRENT_WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${METRIC}`
       )
       data.value = res.data
     } catch (err) {
