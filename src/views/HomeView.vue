@@ -2,12 +2,15 @@
 import { useCurrentWeatherStore } from '@/stores/currentWeather'
 import { useGeoStore } from '@/stores/geo'
 import { storeToRefs } from 'pinia'
-import { watch, computed, ref } from 'vue'
+import { watch, computed, ref, nextTick } from 'vue'
 import { useWeatherForecastStore } from '@/stores/weatherForecast'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primevue'
 import { format, addDays, isSameDay } from 'date-fns'
 import WeatherPanel from '@/components/home/WeatherPanel.vue'
 import { mappedData } from '@/utils/data'
+import gsap from 'gsap'
+import WeatherPanelSekeleton from '@/components/skeletons/WeatherPanelSekeleton.vue'
+import StartInfo from '@/components/home/StartInfo.vue'
 
 // store
 const geo = useGeoStore()
@@ -78,10 +81,46 @@ const scrollableTabs = computed(() => {
     },
   ].filter((tab) => tab.content)
 })
+
+const showExamples = ref(true)
+const showContent = ref(false)
+
+watch([loading, forecastLoading], async ([isLoading, isForecastLoading]) => {
+  await nextTick()
+  showExamples.value = false
+
+  if (isLoading || isForecastLoading) {
+    showContent.value = false
+  } else {
+    setTimeout(() => {
+      showContent.value = true
+
+      gsap.fromTo('.tabs', { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'power2.out' })
+
+      gsap.to('.skeletons', {
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.inOut',
+      })
+    }, 400)
+  }
+})
+
+watch(activeTab, () => {
+  gsap.fromTo(
+    '.weather-panel',
+    { y: -20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.5, ease: 'power5.out' }
+  )
+})
 </script>
 
 <template>
-  <Tabs v-model:value="activeTab" scrollable class="max-w-[40rem] mx-auto">
+  <StartInfo v-if="showExamples" />
+
+  <WeatherPanelSekeleton v-else-if="!showContent" />
+
+  <Tabs v-else v-model:value="activeTab" scrollable class="mx-auto tabs opacity-0">
     <TabList>
       <Tab
         v-for="tab in scrollableTabs"
@@ -92,12 +131,16 @@ const scrollableTabs = computed(() => {
         {{ tab.title }}
       </Tab>
     </TabList>
-    <TabPanels class="!bg-transparent !px-0">
-      <TabPanel v-for="tab in scrollableTabs" :key="tab.value" :value="tab.value">
+    <TabPanels class="!bg-transparent !px-0 !pb-0">
+      <TabPanel
+        v-for="tab in scrollableTabs"
+        :key="tab.value"
+        :value="tab.value"
+        class="py-2 weather-panel"
+      >
         <WeatherPanel
           v-if="tab.content && activeTab === tab.value"
           :data="tab.content"
-          :loading="loading || forecastLoading"
           :tab-value="activeTab"
         />
       </TabPanel>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getLocalTime } from '@/utils/date'
-import WeatherAnimations from './WeatherAnimations.vue'
+import WeatherAnimations from './elements/WeatherAnimations.vue'
 import { type WeatherInfo } from '@/types'
 import { computed, toRefs } from 'vue'
 import { mapIcons } from '@/data/icons'
@@ -11,11 +11,10 @@ import InfoCard from './elements/InfoCard.vue'
 
 const props = defineProps<{
   data: WeatherInfo
-  loading: boolean
   tabValue: string
 }>()
 
-const { data, loading, tabValue } = toRefs(props)
+const { data, tabValue } = toRefs(props)
 
 const weatherDescription = computed(() => {
   return data.value.description
@@ -25,7 +24,7 @@ const weatherDescription = computed(() => {
 </script>
 
 <template>
-  <section class="w-full text-lg flex flex-col pb-6 gap-y-4 relative">
+  <section class="w-full text-lg flex flex-col gap-y-4 relative">
     <div class="flex items-center justify-between gap-4">
       <h2 class="flex items-center gap-2">
         <i class="pi pi-map-marker"></i>
@@ -52,7 +51,6 @@ const weatherDescription = computed(() => {
       <div class="mt-2 sm:mt-4">
         <WeatherAnimations
           :weather="mapIcons[data.icon]"
-          :loading="loading"
           :tab-value="tabValue"
         />
       </div>

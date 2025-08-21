@@ -15,6 +15,6 @@ import { Card } from 'primevue'
 
 <style>
 .p-card-body {
-  padding-top: 0.75rem;
+  padding-top: 0.7rem !important;
 }
 </style>
