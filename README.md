@@ -9,7 +9,8 @@ It features animated weather effects and GSAP transitions, providing a smooth an
 
 ## tech
 
--- Vue.js + Pinia <br />
+-- Vue.js <br />
+-- Pinia <br />
 -- TypeScript <br />
 -- Tailwind CSS <br />
 -- Primevue (UI components) <br />
