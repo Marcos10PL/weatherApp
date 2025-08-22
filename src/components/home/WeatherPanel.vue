@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { getLocalTime } from '@/utils/date'
 import WeatherAnimations from './elements/WeatherAnimations.vue'
-import { type WeatherInfo } from '@/types'
+import type { WeatherInfo } from '@/types'
 import { computed, toRefs } from 'vue'
 import { mapIcons } from '@/data/icons'
 import ProgressCard from './elements/ProgressCard.vue'
@@ -25,20 +24,10 @@ const weatherDescription = computed(() => {
 
 <template>
   <section class="w-full text-lg flex flex-col gap-y-4 relative">
-    <div class="flex items-center justify-between gap-4">
-      <h2 class="flex items-center gap-2">
-        <i class="pi pi-map-marker"></i>
-        <span> {{ data.name }}, {{ data.country }} </span>
-      </h2>
-      <div>
-        <div class="flex items-center gap-1">
-          <p>{{ getLocalTime(new Date(data.dt * 1000), data.timezone) }}</p>
-          <span title="Local time of last update">
-            <i class="pi pi-info-circle !text-sm ml-1 text-gray-400" />
-          </span>
-        </div>
-      </div>
-    </div>
+    <h2 class="flex items-center gap-2">
+      <i class="pi pi-map-marker"></i>
+      <span> {{ data.name }}, {{ data.country }} </span>
+    </h2>
 
     <div class="grid grid-cols-2">
       <div>
@@ -48,12 +37,7 @@ const weatherDescription = computed(() => {
         </p>
         <p class="text-2xl mt-2">{{ weatherDescription }}</p>
       </div>
-      <div class="mt-2 sm:mt-4">
-        <WeatherAnimations
-          :weather="mapIcons[data.icon]"
-          :tab-value="tabValue"
-        />
-      </div>
+      <WeatherAnimations :weather="mapIcons[data.icon]" :tab-value="tabValue" />
     </div>
 
     <p>Feels like {{ Math.round(data.feelsLike) }}°C</p>

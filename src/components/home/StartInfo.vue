@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 mb-6 mt-5 start-info">
+  <section class="flex flex-col gap-4 mb-6 mt-5 start-info">
     <p>Search for a city and select a result to see the weather forecast.</p>
     <p>You can type, for example:</p>
     <ul class="list-disc pl-5">
@@ -30,5 +30,5 @@ onMounted(() => {
         Masovian Voivodeship”.
       </p>
     </div>
-  </div>
+  </section>
 </template>

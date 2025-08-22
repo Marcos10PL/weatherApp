@@ -24,15 +24,12 @@ const weatherForecast = useWeatherForecastStore()
 const { data: forecastData, loading: forecastLoading } = storeToRefs(weatherForecast)
 const { fetchWeatherForecast } = weatherForecast
 
+// vars
 const activeTab = ref('0')
+const showExamples = ref(true)
+const showContent = ref(false)
 
-watch(selectedGeo, async (newValue) => {
-  if (!newValue) return
-  await fetchWeather({ lat: newValue.lat, lon: newValue.lon })
-  await fetchWeatherForecast({ lat: newValue.lat, lon: newValue.lon })
-  activeTab.value = '0'
-})
-
+// tabs
 const scrollableTabs = computed(() => {
   if (!forecastData.value?.list) return []
 
@@ -46,6 +43,7 @@ const scrollableTabs = computed(() => {
     })
   }
 
+  const today15h = findForecastForDay(0, 15)
   const tomorrow15h = findForecastForDay(1, 15)
   const day2 = findForecastForDay(2, 15)
   const day3 = findForecastForDay(3, 15)
@@ -53,38 +51,34 @@ const scrollableTabs = computed(() => {
 
   const city = forecastData.value.city
 
-  return [
-    {
-      title: 'Today',
-      value: '0',
-      content: data.value ? mappedData(data.value, city) : null,
-    },
-    {
-      title: 'Tomorrow',
-      value: '1',
-      content: tomorrow15h ? mappedData(tomorrow15h, city) : null,
-    },
-    {
-      title: format(addDays(today, 2), 'EEEE'),
-      value: '2',
-      content: day2 ? mappedData(day2, city) : null,
-    },
-    {
-      title: format(addDays(today, 3), 'EEEE'),
-      value: '3',
-      content: day3 ? mappedData(day3, city) : null,
-    },
-    {
-      title: format(addDays(today, 4), 'EEEE'),
-      value: '4',
-      content: day4 ? mappedData(day4, city) : null,
-    },
-  ].filter((tab) => tab.content)
+  const tabs = [
+    { title: 'Now', raw: data.value },
+    { title: 'Today', raw: today15h },
+    { title: 'Tomorrow', raw: tomorrow15h },
+    { title: format(addDays(today, 2), 'EEEE'), raw: day2 },
+    { title: format(addDays(today, 3), 'EEEE'), raw: day3 },
+    { title: format(addDays(today, 4), 'EEEE'), raw: day4 },
+  ] as const
+
+  return tabs
+    .filter((t) => t.raw)
+    .map((t, i) => ({
+      title: t.title,
+      value: i.toString(),
+      content: mappedData(t.raw!, city),
+    }))
 })
 
-const showExamples = ref(true)
-const showContent = ref(false)
+// watchers
+watch(selectedGeo, async (newValue, oldValue) => {
+  if (!newValue || (newValue.lat === oldValue?.lat && newValue.lon === oldValue?.lon)) return
 
+  await fetchWeather({ lat: newValue.lat, lon: newValue.lon })
+  await fetchWeatherForecast({ lat: newValue.lat, lon: newValue.lon })
+  activeTab.value = '0'
+})
+
+// watchers for animations
 watch([loading, forecastLoading], async ([isLoading, isForecastLoading]) => {
   await nextTick()
   showExamples.value = false
@@ -102,7 +96,7 @@ watch([loading, forecastLoading], async ([isLoading, isForecastLoading]) => {
         duration: 0.6,
         ease: 'power2.inOut',
       })
-    }, 400)
+    }, 200)
   }
 })
 
@@ -124,22 +118,22 @@ watch(activeTab, () => {
     <TabList>
       <Tab
         v-for="tab in scrollableTabs"
-        :key="tab.value"
-        :value="tab.value"
+        :key="tab?.value"
+        :value="tab?.value || -1"
         class="!bg-transparent"
       >
-        {{ tab.title }}
+        {{ tab?.title }}
       </Tab>
     </TabList>
     <TabPanels class="!bg-transparent !px-0 !pb-0">
       <TabPanel
         v-for="tab in scrollableTabs"
-        :key="tab.value"
-        :value="tab.value"
+        :key="tab?.value"
+        :value="tab?.value || -1"
         class="py-2 weather-panel"
       >
         <WeatherPanel
-          v-if="tab.content && activeTab === tab.value"
+          v-if="tab?.content && activeTab === tab.value"
           :data="tab.content"
           :tab-value="activeTab"
         />
