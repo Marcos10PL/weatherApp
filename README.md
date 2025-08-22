@@ -12,6 +12,6 @@ It features animated weather effects and GSAP transitions, providing a smooth an
 -- Vue.js + Pinia <br />
 -- TypeScript <br />
 -- Tailwind CSS <br />
--- Primevue (UI components)
--- GSAP (animations)
+-- Primevue (UI components) <br />
+-- GSAP (animations) <br />
 
